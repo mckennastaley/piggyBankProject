@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div>
+        <h1>Piggy Banks</h1>
+        {% for bank in data %}
+            <h3>{{ bank.owner }}</h3>
+            <p>{{ bank.balance }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

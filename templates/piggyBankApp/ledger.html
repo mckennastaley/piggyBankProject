@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Ledger{% endblock %}
+{% block content %}
+    <div>
+        <h1>Ledger</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Item</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Date</th>
+              <th scope="col">Account</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in data %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ item.item }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.account }}</td>
+                <td><a href="{% url 'delete' item.id %}" type="button" class="btn btn-danger">Delete</a></td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    </div>
+{% endblock %}
