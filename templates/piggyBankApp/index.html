@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <div>
-        <p class="text-end" style="font-size: x-large">{{ goal.amount }}</p>
-        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: {{ progress }}%; font-size: x-large;">{{ bank.balance }}</div>
+    <div class="container" style="padding-top: 20px">
+        {% if goal.amount %}
+        <div class="row">
+            <div class="">
+                <p class="text-end" style="font-size: x-large">{{ goal.amount }}</p>
+                <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: {{ progress }}%; font-size: x-large;">{{ bank.balance }}</div>
+                </div>
+                <p style="padding-top: 15px; font-size: x-large">You are {{ progress }}% of the way to your {{ goal.goalName | lower }}. Keep going!</p>
+            </div>
         </div>
-        <p style="padding-top: 15px; font-size: x-large">You are {{ progress }}% of the way to your {{ goal.goalName |lower }}. Keep going!</p>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <p>Line Item Form</p>
+                <!-- Place your Line Item Form here -->
+            </div>
+            <div class="col-md-6">
+                <p>Goal Form</p>
+                <!-- Place your Goal Form here -->
+            </div>
+        </div>
     </div>
 {% endblock %}

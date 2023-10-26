@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'piggyBankApp.apps.PiggybankappConfig',
     'bootstrap5',
-    'djmoney',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -143,4 +142,3 @@ LOGIN_URL = '/accounts/login'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-

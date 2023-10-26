@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import PiggyBankForm, LineItemForm, GoalForm, CustomUserForm
 from .models import PiggyBank, LineItem, Goal, User
@@ -8,19 +9,23 @@ from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
+@login_required
 def index(request):
     bank = PiggyBank.objects.get(user_id=request.user.id)
-    goal = Goal.objects.get(account_id=bank.id)
-    progress = int((bank.balance / goal.amount) * 100)
+    goal = Goal.objects.filter(account_id=bank.id)
+    if len(goal) != 0:
+        progress = int((bank.balance / goal.amount) * 100)
+    else:
+        progress = 0
     context = {'bank': bank,
                'goal': goal,
-               'progress': progress }
+               'progress': progress}
     return render(request, 'piggyBankApp/index.html', context)
 
 
 def addLineItem(request):
     if request.method == 'POST':
-        form = LineItemForm(request.POST)
+        form = LineItemForm(request.user, request.POST)
         if form.is_valid():
             instance = form.save()
             bank = PiggyBank.objects.get(id=instance.account_id)
@@ -29,7 +34,7 @@ def addLineItem(request):
             instance.save()
             return redirect(to='ledger')
     else:
-        form = LineItemForm()
+        form = LineItemForm(request.user)
 
     context = {'form': form}
     return render(request, 'piggyBankApp/addLineItem.html', context)
