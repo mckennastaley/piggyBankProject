@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
 from .forms import PiggyBankForm, LineItemForm, GoalForm, CustomUserForm
 from .models import PiggyBank, LineItem, Goal, User
+from django.contrib.auth import authenticate, login
+
+
 # from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
 def index(request):
-    context = {'banks': PiggyBank.objects.all(),
-               'goals': Goal.objects.all()}
+    bank = PiggyBank.objects.get(user_id=request.user.id)
+    goal = Goal.objects.get(account_id=bank.id)
+    progress = int((bank.balance / goal.amount) * 100)
+    context = {'bank': bank,
+               'goal': goal,
+               'progress': progress }
     return render(request, 'piggyBankApp/index.html', context)
 
 
@@ -39,24 +46,25 @@ def deleteLineItem(request, id):
 
 def addGoal(request):
     if request.method == 'POST':
-        form = GoalForm(request.POST)
+        form = GoalForm(request.user, request.POST)
         if form.is_valid():
             form.save()
             return redirect(to='index')
-    form = GoalForm()
+    form = GoalForm(request.user)
     context = {'form': form}
     return render(request, 'piggyBankApp/addGoal.html', context)
 
 
 def addPiggyBank(request):
     if request.method == 'POST':
-        form = PiggyBankForm(request.POST)
+        form = PiggyBankForm(request.user, request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.balance = instance.starting_balance
             form.save()
             return redirect(to='index')
-    form = PiggyBankForm()
+
+    form = PiggyBankForm(request.user)
     context = {'form': form}
     return render(request, 'piggyBankApp/addPiggyBank.html', context)
 
@@ -72,9 +80,10 @@ def ledger(request):
 def register(request):
     if request.method == 'POST':
         form = CustomUserForm(request.POST)
-        if form.is_valid(): #and userForm.is_valid():
-            form.save()
-        return redirect(to='index')
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(to='addPiggyBank')
     else:
         form = CustomUserForm()
     context = {'form': form}

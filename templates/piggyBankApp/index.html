@@ -2,20 +2,10 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <div>
-        <h1>Piggy Banks</h1>
-        {% for bank in banks %}
-            <h3>{{ bank.user }}</h3>
-            <p>{{ bank.balance }}</p>
-        {% endfor %}
-    </div>
-    <div>
-        <h1>Goals</h1>
-        {% for goal in goals %}
-            <h3>{{ goal.goalName }}</h3>
-            <p>{{ goal.amount }}</p>
-            <p>{{ goal.date }}</p>
-            <p>{{ goal.account }}</p>
-            <p>{{ goal.accomplished }}</p>
-        {% endfor %}
+        <p class="text-end" style="font-size: x-large">{{ goal.amount }}</p>
+        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: {{ progress }}%; font-size: x-large;">{{ bank.balance }}</div>
+        </div>
+        <p style="padding-top: 15px; font-size: x-large">You are {{ progress }}% of the way to your {{ goal.goalName |lower }}. Keep going!</p>
     </div>
 {% endblock %}

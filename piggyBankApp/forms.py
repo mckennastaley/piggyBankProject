@@ -15,15 +15,13 @@ class PiggyBankForm(forms.ModelForm):
     class Meta:
         model = PiggyBank
         fields = '__all__'
-        widgets = {
-            'date': DateInput()
-        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(PiggyBankForm, self).__init__(*args, **kwargs)
+        self.fields['user'].initial = user
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Field('user'),
+            Field('user', type='hidden'),
             Field('starting_balance'),
             Submit('submit', 'Submit', css_class='btn btn-primary')
         )
@@ -50,16 +48,20 @@ class GoalForm(forms.ModelForm):
     class Meta:
         model = Goal
         fields = '__all__'
+        widgets = {
+            'date': DateInput()
+        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(GoalForm, self).__init__(*args, **kwargs)
+        self.fields['account'].initial = user.piggybank
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Field('goalName'),
             Field('amount'),
             Field('date'),
-            Field('account'),
-            Field('accomplished'),
+            Field('account', type='hidden'),
+            Field('accomplished', type='hidden'),
             Submit('submit', 'Submit', css_class='btn btn-primary'),
         )
 
