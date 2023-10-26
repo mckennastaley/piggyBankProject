@@ -3,9 +3,19 @@
 {% block content %}
     <div>
         <h1>Piggy Banks</h1>
-        {% for bank in data %}
-            <h3>{{ bank.owner }}</h3>
+        {% for bank in banks %}
+            <h3>{{ bank.user }}</h3>
             <p>{{ bank.balance }}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <h1>Goals</h1>
+        {% for goal in goals %}
+            <h3>{{ goal.goalName }}</h3>
+            <p>{{ goal.amount }}</p>
+            <p>{{ goal.date }}</p>
+            <p>{{ goal.account }}</p>
+            <p>{{ goal.accomplished }}</p>
         {% endfor %}
     </div>
 {% endblock %}

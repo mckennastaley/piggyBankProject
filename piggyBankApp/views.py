@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from .forms import PiggyBankForm, LineItemForm
-from .models import PiggyBank, LineItem
+from .forms import PiggyBankForm, LineItemForm, GoalForm, CustomUserForm
+from .models import PiggyBank, LineItem, Goal, User
+# from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
 def index(request):
-    context = {'data': PiggyBank.objects.all()}
+    context = {'banks': PiggyBank.objects.all(),
+               'goals': Goal.objects.all()}
     return render(request, 'piggyBankApp/index.html', context)
 
 
@@ -35,6 +37,17 @@ def deleteLineItem(request, id):
     return redirect(to='ledger')
 
 
+def addGoal(request):
+    if request.method == 'POST':
+        form = GoalForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to='index')
+    form = GoalForm()
+    context = {'form': form}
+    return render(request, 'piggyBankApp/addGoal.html', context)
+
+
 def addPiggyBank(request):
     if request.method == 'POST':
         form = PiggyBankForm(request.POST)
@@ -54,3 +67,15 @@ def ledger(request):
         'count': 0
     }
     return render(request, 'piggyBankApp/ledger.html', context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserForm(request.POST)
+        if form.is_valid(): #and userForm.is_valid():
+            form.save()
+        return redirect(to='index')
+    else:
+        form = CustomUserForm()
+    context = {'form': form}
+    return render(request, 'registration/register.html', context)

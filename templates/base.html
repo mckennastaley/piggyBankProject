@@ -28,6 +28,29 @@
     <li class="nav-item">
       <a class="nav-link link-light" href="{% url 'addLineItem' %}">Line Item</a>
     </li>
+      <li class="nav-item">
+      <a class="nav-link link-light" href="{% url 'addGoal' %}">Goal</a>
+    </li>
+      {% if user.is_authenticated %}
+      <ul class="nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'logout' %}">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light">Welcome, {{ user.first_name }}</a>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'register' %}">Create Account</a>
+        </li>
+      </ul>
+      {% endif %}
+
   </ul>
 
   {% block content %}
