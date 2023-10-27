@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import SelectDateWidget
+
 from .models import PiggyBank, LineItem, Goal
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
@@ -43,6 +45,7 @@ class LineItemForm(forms.ModelForm):
             'date': DateInput(),
         }
 
+
     def __init__(self, user, *args, **kwargs):
         super(LineItemForm, self).__init__(*args, **kwargs)
         self.fields['account'].initial = user.piggybank
@@ -56,7 +59,7 @@ class LineItemForm(forms.ModelForm):
             ),
 
             Field('account', type='hidden'),
-            Submit('submit', 'Submit', css_class='btn btn-primary'),
+            Submit('submit', 'Add Transaction', css_class='btn btn-primary'),
         )
 
 
@@ -68,9 +71,9 @@ class GoalForm(forms.ModelForm):
             'date': DateInput()
         }
         labels = {
-            'item': 'What are you saving for?',
+            'goalName': 'What are you saving for?',
             'amount': 'How much does it cost?',
-            'date': 'When do you hope to reach this goal?',
+            'date': 'When do you want to reach this goal?',
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -82,7 +85,7 @@ class GoalForm(forms.ModelForm):
             Row(Column('amount'), Column('date')),
             Field('account', type='hidden'),
             Field('accomplished', type='hidden'),
-            Submit('submit', 'Submit', css_class='btn btn-primary'),
+            Submit('submit', 'Edit Goal',css_class='btn btn-primary'),
         )
 
 

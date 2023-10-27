@@ -17,20 +17,20 @@
 <div class="container">
   <ul class="nav navbar-dark bg-dark">
       <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'index' %}">Home</a>
+      <a class="nav-link link-light" href="{% url 'index' %}">Dashboard</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'ledger' %}">Ledger</a>
+      <a class="nav-link link-light" href="{% url 'ledger' %}">Transaction History</a>
     </li>
 {#    <li class="nav-item">#}
 {#      <a class="nav-link link-light" href="{% url 'addPiggyBank' %}">Piggy Bank</a>#}
 {#    </li>#}
-    <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'addLineItem' %}">Line Item</a>
-    </li>
-      <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'addGoal' %}">Goal</a>
-    </li>
+{#    <li class="nav-item">#}
+{#      <a class="nav-link link-light" href="{% url 'addLineItem' %}">Line Item</a>#}
+{#    </li>#}
+{#      <li class="nav-item">#}
+{#      <a class="nav-link link-light" href="{% url 'addGoal' %}">Goal</a>#}
+{#    </li>#}
       {% if user.is_authenticated %}
       <ul class="nav ms-auto">
         <li class="nav-item">

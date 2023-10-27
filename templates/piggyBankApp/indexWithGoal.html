@@ -3,9 +3,11 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
+    {% if goal is not None %}
     <div class="container" style="padding-top: 20px">
         <div class="row">
             <div class="">
+                <h1 class="display-1">Progress</h1>
                 <p class="text-end" style="font-size: x-large">${{ goal.amount|floatformat:2 }}</p>
                 <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: {{ progress }}%; font-size: x-large;">${{ bank.balance|floatformat:2 }}</div>
@@ -13,16 +15,17 @@
                 <p style="padding-top: 15px; font-size: x-large">You are {{ progress }}% of the way to your {{ goal.goalName | lower }}. Keep going!</p>
             </div>
         </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-6">
-                <p>Line Item Form</p>
+                <h1 class="display-3">Transactions</h1>
                 <form method="post">
                {% csrf_token %}
                {% crispy lineItemForm %}
                 </form>
             </div>
             <div class="col-md-6">
-                <p>Goal Info</p>
+                <h1 class="display-3">Goals</h1>
                 <form method="post">
                {% csrf_token %}
                {% crispy goalForm %}
