@@ -2,7 +2,8 @@ from django import forms
 from .models import PiggyBank, LineItem, Goal
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Field
+from crispy_forms.layout import Layout, Submit, Field, Row, Column, Div, HTML
+from crispy_forms.bootstrap import InlineRadios
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -29,6 +30,12 @@ class PiggyBankForm(forms.ModelForm):
 
 
 class LineItemForm(forms.ModelForm):
+    Choices = (
+        ('save', 'Save'),
+        ('spend', 'Spend'),
+    )
+    save = forms.ChoiceField(choices=Choices, widget=forms.RadioSelect, label=False)
+
     class Meta:
         model = LineItem
         fields = '__all__'
@@ -41,9 +48,13 @@ class LineItemForm(forms.ModelForm):
         self.fields['account'].initial = user.piggybank
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Field('item'),
-            Field('amount'),
-            Field('date'),
+            Row(
+                Column('item'), Column('date')),
+            Row(
+                Column(InlineRadios('save')),
+                Column('amount'),
+            ),
+
             Field('account', type='hidden'),
             Submit('submit', 'Submit', css_class='btn btn-primary'),
         )
@@ -59,7 +70,7 @@ class GoalForm(forms.ModelForm):
         labels = {
             'item': 'What are you saving for?',
             'amount': 'How much does it cost?',
-            'date': 'What day do you hope to reach this goal?',
+            'date': 'When do you hope to reach this goal?',
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -67,9 +78,8 @@ class GoalForm(forms.ModelForm):
         self.fields['account'].initial = user.piggybank
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Field('goalName'),
-            Field('amount'),
-            Field('date'),
+            Row('goalName'),
+            Row(Column('amount'), Column('date')),
             Field('account', type='hidden'),
             Field('accomplished', type='hidden'),
             Submit('submit', 'Submit', css_class='btn btn-primary'),

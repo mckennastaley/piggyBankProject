@@ -1,6 +1,7 @@
 from django.db import models
 import django.utils.timezone
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxLengthValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -10,11 +11,14 @@ from datetime import date
 # Create your models here.
 class PiggyBank(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    starting_balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
-    balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
+    starting_balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
+                                           validators=[MinValueValidator(0.01)])
+    balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
+                                  validators=[MinValueValidator(0.01)])
 
     def __str__(self):
         return f"{self.user.first_name}'s Account"
+
 
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,9 +37,10 @@ class Child(models.Model):
 
 
 class LineItem(models.Model):
-    amount = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
+    amount = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
+                                 validators=[MinValueValidator(0.01)])
     date = models.DateField(default=django.utils.timezone.now)
-    item = models.CharField(max_length=100, null=False)
+    item = models.CharField(max_length=100, null=False, validators=[MaxLengthValidator(100)])
     account = models.ForeignKey(PiggyBank, on_delete=models.CASCADE, blank=False)
 
     def __str__(self):
@@ -43,8 +48,9 @@ class LineItem(models.Model):
 
 
 class Goal(models.Model):
-    goalName = models.CharField(max_length=20, null=False)
-    amount = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
+    goalName = models.CharField(max_length=20, null=False, validators=[MaxLengthValidator(20)])
+    amount = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
+                                 validators=[MinValueValidator(0.01)])
     account = models.ForeignKey(PiggyBank, on_delete=models.CASCADE, blank=False)
     date = models.DateField()
     accomplished = models.BooleanField(default=False)

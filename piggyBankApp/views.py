@@ -11,16 +11,42 @@ from django.contrib.auth import authenticate, login
 # Create your views here.
 @login_required
 def index(request):
+    lineItemForm = LineItemForm(request.user)
     bank = PiggyBank.objects.get(user_id=request.user.id)
-    goal = Goal.objects.filter(account_id=bank.id)
-    if len(goal) != 0:
-        progress = int((bank.balance / goal.amount) * 100)
-    else:
-        progress = 0
+    try:
+        goal = Goal.objects.get(account_id=bank.id)
+    except Goal.DoesNotExist:
+        goal = None
+    goalForm = GoalForm(request.user, instance=goal)
+
+    if request.method == 'POST':
+        if 'item' in request.POST:
+            lineItemForm = LineItemForm(request.user, request.POST)
+            if lineItemForm.is_valid():
+                instance = lineItemForm.save()
+                bank = PiggyBank.objects.get(id=instance.account_id)
+                if lineItemForm['save'].data != 'save':
+                    instance.amount *= -1
+                bank.balance += instance.amount
+                bank.save()
+                instance.save()
+        if 'goalName' in request.POST:
+            goalForm = GoalForm(request.user, request.POST, instance=goal)
+            if goalForm.is_valid():
+                goal = goalForm.save()
+
     context = {'bank': bank,
                'goal': goal,
-               'progress': progress}
-    return render(request, 'piggyBankApp/index.html', context)
+               'progress': 0,
+               'lineItemForm': lineItemForm,
+               'goalForm': goalForm,
+               }
+
+    if goal is not None:
+        context['progress'] = int((bank.balance / goal.amount) * 100)
+        return render(request, 'piggyBankApp/indexWithGoal.html', context)
+    else:
+        return render(request, 'piggyBankApp/indexWithoutGoal.html', context)
 
 
 def addLineItem(request):
