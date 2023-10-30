@@ -2,10 +2,6 @@ from django.db import models
 import django.utils.timezone
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxLengthValidator
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-from datetime import date
 
 
 # Create your models here.
@@ -13,8 +9,7 @@ class PiggyBank(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     starting_balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
                                            validators=[MinValueValidator(0.01)])
-    balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
-                                  validators=[MinValueValidator(0.01)])
+    balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.user.first_name}'s Account"

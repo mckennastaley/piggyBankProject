@@ -102,7 +102,7 @@ def addPiggyBank(request):
 
 def ledger(request):
     context = {
-        'data': LineItem.objects.all().order_by('date'),
+        'data': LineItem.objects.filter(account_id=request.user.piggybank.id).order_by('date'),
         'count': 0
     }
     return render(request, 'piggyBankApp/ledger.html', context)
