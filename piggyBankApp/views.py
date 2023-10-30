@@ -44,9 +44,9 @@ def index(request):
 
     if goal is not None:
         context['progress'] = int((bank.balance / goal.amount) * 100)
-        return render(request, 'piggyBankApp/indexWithGoal.html', context)
+        return render(request, 'piggyBankApp/index.html', context)
     else:
-        return render(request, 'piggyBankApp/indexWithGoal.html', context)
+        return render(request, 'piggyBankApp/index.html', context)
 
 
 def addLineItem(request):
