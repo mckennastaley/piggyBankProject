@@ -9,7 +9,7 @@ class PiggyBank(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     starting_balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0.01,
                                            validators=[MinValueValidator(0.01)])
-    balance = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2, default=0)
+    balance = models.DecimalField(null=True, blank=True, max_digits=9, decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.user.first_name}'s Account"
