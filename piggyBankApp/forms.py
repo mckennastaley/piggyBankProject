@@ -59,7 +59,7 @@ class LineItemForm(forms.ModelForm):
             ),
 
             Field('account', type='hidden'),
-            Submit('submit', 'Add Transaction', css_class='btn btn-primary'),
+            Submit('submit', 'Add Transaction', css_class='btn btn-success'),
         )
 
 
@@ -73,7 +73,7 @@ class GoalForm(forms.ModelForm):
         labels = {
             'goalName': 'What are you saving for?',
             'amount': 'How much does it cost?',
-            'date': 'When do you want to reach this goal?',
+            'date': 'When is your target date?',
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -85,7 +85,7 @@ class GoalForm(forms.ModelForm):
             Row(Column('amount'), Column('date')),
             Field('account', type='hidden'),
             Field('accomplished', type='hidden'),
-            Submit('submit', 'Edit Goal',css_class='btn btn-primary'),
+            Submit('submit', 'Update Goal',css_class='btn btn-success'),
         )
 
 
