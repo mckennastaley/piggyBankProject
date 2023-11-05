@@ -10,12 +10,12 @@
       type="image/png"
       href="{% static 'spotlight/img/icons8-home-64.png' %}"
     />
-    <link rel="stylesheet" href="{% static 'spotlight/css/style.css'}" />
+    <link rel="stylesheet" href="{% static 'spotlight/css/style.css' %}" />
     {% bootstrap_css %} {% bootstrap_javascript %}
     <style>
       body {
         font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
+        background-color: #fee471; /* Light yellow background */
         margin: 0;
         padding: 0;
       }
@@ -25,23 +25,25 @@
         padding: 20px;
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
+        border-radius: 10px;
       }
       .navbar {
-        background-color: #343a40;
+        background-color: #39d4c0; /* Teal navbar */
       }
       .navbar .nav-link {
         color: #fff;
+        font-size: 18px;
       }
       .navbar .nav-link:hover {
-        color: #17a2b8;
+        text-decoration: underline;
       }
       .content {
         padding: 20px;
       }
       .section-heading {
-        font-size: 34px; /* Adjust the font size as needed */
-        margin-bottom: 10px; /* Add some space below the headings */
+        font-size: 34px;
+        margin-bottom: 10px;
+        color: #39d4c0;
       }
       .rounded-border {
         border: 1px solid #ccc;
@@ -74,11 +76,16 @@
         font-size: 20px;
         padding-top: 15px;
       }
+
+      .btn-danger {
+        background-color: #ed5564;
+        border-color: #ed5564;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-dark bg-dark">
+      <nav class="navbar">
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link link-light" href="{% url 'index' %}"

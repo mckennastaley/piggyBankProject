@@ -9,7 +9,7 @@
             <div class="rounded-border progress-container">
                 <h2 class="section-heading">Progress towards: ${{ goal.amount|floatformat:2 }}</h2>
                 <div class="progress" style="margin-top: 0.35in; margin-bottom: 0.15in;" role="progressbar" aria-label="Animated striped example" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: {{ progress }}%;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ progress }}%; background-color: #39d4c0;">
                         <span class="progress-label">${{ bank.balance|floatformat:2 }}</span>
                     </div>
                 </div>

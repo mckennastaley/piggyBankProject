@@ -59,7 +59,7 @@ class LineItemForm(forms.ModelForm):
             ),
 
             Field('account', type='hidden'),
-            Submit('submit', 'Add Transaction', css_class='btn btn-success'),
+            Submit('submit', 'Add Transaction', css_class='btn btn-success', style='background-color: #39d4c0; border-color: #39d4c0;'),
         )
 
 
@@ -85,7 +85,7 @@ class GoalForm(forms.ModelForm):
             Row(Column('amount'), Column('date')),
             Field('account', type='hidden'),
             Field('accomplished', type='hidden'),
-            Submit('submit', 'Update Goal',css_class='btn btn-success'),
+            Submit('submit', 'Update Goal', css_class='btn btn-success', style='background-color: #39d4c0; border-color: #39d4c0;'),
         )
 
 
