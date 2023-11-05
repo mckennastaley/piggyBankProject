@@ -1,60 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %} {% load bootstrap5 %}
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'spotlight/img/icons8-home-64.png' %}"
+    />
+    <link rel="stylesheet" href="{% static 'spotlight/css/style.css'}" />
+    {% bootstrap_css %} {% bootstrap_javascript %}
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+      .navbar {
+        background-color: #343a40;
+      }
+      .navbar .nav-link {
+        color: #fff;
+      }
+      .navbar .nav-link:hover {
+        color: #17a2b8;
+      }
+      .content {
+        padding: 20px;
+      }
+      .section-heading {
+        font-size: 34px; /* Adjust the font size as needed */
+        margin-bottom: 10px; /* Add some space below the headings */
+      }
+      .rounded-border {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f8f8f8;
+      }
 
-<head>
-  <title>{% block title %}{% endblock %}</title>
-  {% load bootstrap5 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'spotlight/img/icons8-home-64.png' %}" >
+      .progress-container {
+        text-align: center;
+      }
 
-    <link rel="stylesheet" href="{% static 'spotlight/css/style.css' %}">
+      .progress-amount {
+        font-size: x-large;
+      }
 
-</head>
-<body>
+      .progress-bar {
+        font-size: x-large;
+      }
 
-<div class="container">
-  <ul class="nav navbar-dark bg-dark">
-      <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'index' %}">Dashboard</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-light" href="{% url 'ledger' %}">Transaction History</a>
-    </li>
-{#    <li class="nav-item">#}
-{#      <a class="nav-link link-light" href="{% url 'addPiggyBank' %}">Piggy Bank</a>#}
-{#    </li>#}
-{#    <li class="nav-item">#}
-{#      <a class="nav-link link-light" href="{% url 'addLineItem' %}">Line Item</a>#}
-{#    </li>#}
-{#      <li class="nav-item">#}
-{#      <a class="nav-link link-light" href="{% url 'addGoal' %}">Goal</a>#}
-{#    </li>#}
-      {% if user.is_authenticated %}
-      <ul class="nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'logout' %}">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light">Welcome, {{ user.first_name }}</a>
-        </li>
-      </ul>
-      {% else %}
-      <ul class="nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'register' %}">Create Account</a>
-        </li>
-      </ul>
-      {% endif %}
+      .progress {
+        height: 40px;
+      }
 
-  </ul>
+      .progress-label {
+        display: inline-block;
+      }
 
-  {% block content %}
-  {% endblock %}
-</div>
-</body>
+      .progress-message {
+        font-size: 20px;
+        padding-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-dark bg-dark">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link link-light" href="{% url 'index' %}"
+              >Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light" href="{% url 'ledger' %}"
+              >Transaction History</a
+            >
+          </li>
+        </ul>
+        <ul class="nav ms-auto">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link link-light" href="{% url 'logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light">Welcome, {{ user.first_name }}</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link link-light" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light" href="{% url 'register' %}"
+              >Create Account</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <div class="content">{% block content %} {% endblock %}</div>
+    </div>
+  </body>
 </html>
